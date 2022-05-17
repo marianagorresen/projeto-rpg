@@ -43,7 +43,7 @@ int pontos_vida(int* consta, float* pv)
 int main()
 {
 	int opc;
-	
+	int pontos;
 	printf("-------------------\n------- MENU ------\n-------------------\n");
 	printf("Digite opcao 1, 2 ou 3:\n");
 	printf("1- Comecar o jogo.\n2- Contar a historia.\n3- Fechar o jogo.\n");
