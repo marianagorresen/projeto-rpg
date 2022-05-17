@@ -4,22 +4,22 @@
 
 typedef struct atributos
 {
-	double forca;
-	double constituicao;
-	double agilidade;
-	double destreza;
+	int forca;
+	int constituicao;
+	int agilidade;
+	int destreza;
 } ATRIBUTO;
 
 typedef struct equipamentos
 {
-	double arma;
-	double armadura;
+	int arma;
+	int armadura;
 } EQUIPAMENTO;
 
 typedef struct personagem
 {
 	char nome[50];
-	double pv;
+	float pv;
 	EQUIPAMENTO equipamento;
 	ATRIBUTO atributo;
 } PERSONAGEM;
@@ -29,19 +29,21 @@ PERSONAGEM personagem;
 
 void criar_personagem();
 
-void pontos_vida(double* consta, double* pv)
+int pontos_vida(int* consta, float* pv)
 {
 	srand(time(NULL));
-	double dado_1 = rand() % 6 + 1, dado_2 = rand() % 6 + 1 , dado_3 = rand() % 6 + 1;
+	int dado_1 = rand() % 6 + 1, dado_2 = rand() % 6 + 1 , dado_3 = rand() % 6 + 1;
 	
 	*pv =  dado_1 + dado_2 + dado_3 + (*consta);
-	printf("\nDado 1= %.lf\nDado 2= %.lf\nDado 2= %.lf\n", dado_1, dado_2, dado_3);
+	printf("\nDado 1= %i \nDado 2= %i \nDado 2= %i\n", dado_1, dado_2, dado_3);
+	
+	return pv;
 }
 
 int main()
 {
 	int opc;
-	double pontos;
+	
 	printf("-------------------\n------- MENU ------\n-------------------\n");
 	printf("Digite opcao 1, 2 ou 3:\n");
 	printf("1- Comecar o jogo.\n2- Contar a historia.\n3- Fechar o jogo.\n");
