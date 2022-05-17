@@ -2,40 +2,44 @@
 #include <stdlib.h>
 #include<time.h>
 
-typedef struct atributos{
+typedef struct atributos
+{
 	double forca;
 	double constituicao;
 	double agilidade;
 	double destreza;
-}ATRIBUTO;
+} ATRIBUTO;
 
-typedef struct equipamentos{
+typedef struct equipamentos
+{
 	double arma;
 	double armadura;
-}EQUIPAMENTO;
+} EQUIPAMENTO;
 
-typedef struct personagem{
+typedef struct personagem
+{
 	char nome[50];
 	double pv;
 	EQUIPAMENTO equipamento;
 	ATRIBUTO atributo;
-}PERSONAGEM;
+} PERSONAGEM;
 
 PERSONAGEM personagem;
 
 
 void criar_personagem();
 
-void pontos_vida(double* consta, double* pv){
+void pontos_vida(double* consta, double* pv)
+{
 	srand(time(NULL));
 	double dado_1 = rand() % 6 + 1, dado_2 = rand() % 6 + 1 , dado_3 = rand() % 6 + 1;
 	
 	*pv =  dado_1 + dado_2 + dado_3 + (*consta);
 	printf("\nDado 1= %.lf\nDado 2= %.lf\nDado 2= %.lf\n", dado_1, dado_2, dado_3);
-
 }
 
-int main(){
+int main()
+{
 	int opc;
 	double pontos;
 	printf("-------------------\n------- MENU ------\n-------------------\n");
@@ -48,7 +52,9 @@ int main(){
 			printf("Digite o nome do seu personagem: ");
 			fflush(stdin);
 			gets(personagem.nome);
-			do{
+			
+			do
+			{
 			printf("Voce tem 15 pontos para distribuir entre os atributos:\nFORCA\tCONSTITUICAO\tAGILIDADE\tDESTREZA\n\n");
 			
 				printf("FORCA: ");
@@ -60,22 +66,28 @@ int main(){
 				printf("DESTREZA: ");
 				scanf("%lf", &personagem.atributo.destreza);
 				pontos = personagem.atributo.agilidade + personagem.atributo.constituicao + personagem.atributo.destreza + personagem.atributo.forca;
-				if(pontos > 15){
+				if(pontos > 15)
+				{
 					printf("Voce passou o limite de 15 pontos. Distribua os pontos dos atributos novamente.\n\n");
 					system("pause");
 					system("cls");
 				}
-			}while(pontos > 15);
+			}
+			while(pontos > 15);
 			personagem.pv = 0;
 			pontos_vida(&personagem.atributo.constituicao, &personagem.pv);
 			printf("Pontos de vida: %.lf", personagem.pv);
+			
 			break;
+			
 		case 2:
 			
 			break;
+			
 		case 3:
 			printf("Fechando...");
 			break;
+			
 	}
 	
 }
