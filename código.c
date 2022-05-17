@@ -19,7 +19,7 @@ typedef struct equipamentos
 typedef struct personagem
 {
 	char nome[50];
-	float pv;
+	int pv;
 	EQUIPAMENTO equipamento;
 	ATRIBUTO atributo;
 } PERSONAGEM;
@@ -29,7 +29,7 @@ PERSONAGEM personagem;
 
 void criar_personagem();
 
-int pontos_vida(int* consta, float* pv)
+void pontos_vida(int* consta, int* pv)
 {
 	srand(time(NULL));
 	int dado_1 = rand() % 6 + 1, dado_2 = rand() % 6 + 1 , dado_3 = rand() % 6 + 1;
@@ -37,7 +37,6 @@ int pontos_vida(int* consta, float* pv)
 	*pv =  dado_1 + dado_2 + dado_3 + (*consta);
 	printf("\nDado 1= %i \nDado 2= %i \nDado 2= %i\n", dado_1, dado_2, dado_3);
 	
-	return pv;
 }
 
 int main()
@@ -60,13 +59,13 @@ int main()
 			printf("Voce tem 15 pontos para distribuir entre os atributos:\nFORCA\tCONSTITUICAO\tAGILIDADE\tDESTREZA\n\n");
 			
 				printf("FORCA: ");
-				scanf("%lf", &personagem.atributo.forca);
+				scanf("%d", &personagem.atributo.forca);
 				printf("CONSTITUICAO: ");
-				scanf("%lf", &personagem.atributo.constituicao);
+				scanf("%d", &personagem.atributo.constituicao);
 				printf("AGILIDADE: ");
-				scanf("%lf", &personagem.atributo.agilidade);
+				scanf("%d", &personagem.atributo.agilidade);
 				printf("DESTREZA: ");
-				scanf("%lf", &personagem.atributo.destreza);
+				scanf("%d", &personagem.atributo.destreza);
 				pontos = personagem.atributo.agilidade + personagem.atributo.constituicao + personagem.atributo.destreza + personagem.atributo.forca;
 				if(pontos > 15)
 				{
@@ -75,10 +74,10 @@ int main()
 					system("cls");
 				}
 			}
-			while(pontos > 15);
+			while(pontos != 15);
 			personagem.pv = 0;
 			pontos_vida(&personagem.atributo.constituicao, &personagem.pv);
-			printf("Pontos de vida: %.lf", personagem.pv);
+			printf("Pontos de vida: %.d", personagem.pv);
 			
 			break;
 			
@@ -93,4 +92,3 @@ int main()
 	}
 	
 }
-
