@@ -37,12 +37,25 @@ typedef struct personagem
 	ATRIBUTO atributo;
 } PERSONAGEM;
 
+typedef struct adversario
+{
+	char nome[20];
+	int pv;
+	int defesa;
+	int agilidade;
+} AD;
+
+AD adv_1 = {"um", 7, 5, 3};
+AD adv_2 = {"dois", 10, 7, 5};
+AD adv_3 = {"tres", 12, 10, 7};
+AD adv_4 = {"quatro", 15, 12, 5};
+AD adv_5 = {"cinco", 17, 15, 7};
+AD adv_6 = {"seis", 17, 17, 10};
+
 ARMA arma;
 PERSONAGEM personagem;
 
 void teste(PERSONAGEM P);
-
-void criar_personagem();
 
 void pontos_vida();
 
@@ -135,6 +148,8 @@ int main()
 			} 
 
 			//printf("\n\n%s, %.1f\n\n", personagem.equipamento.armadura.nome, personagem.equipamento.armadura.defesa);
+			
+			
 
 			break;
 
@@ -161,15 +176,4 @@ void pontos_vida(int* consta, int* pv)
 	*pv =  dado_1 + dado_2 + dado_3 + (*consta);
 	//printf("\nDado 1= %i \nDado 2= %i \nDado 2= %i\n", dado_1, dado_2, dado_3);
 	
-}
-
-void teste(PERSONAGEM P)
-{
-	printf("dados atuais de jogador: \n");
-	printf("nome :%s\n",P.nome);
-	printf("vida :%i\n",P.pv);
-	printf("forca %i\n",P.atributo.forca);
-	printf("destreza %i\n",P.atributo.destreza);
-	printf("constituicao %i\n",P.atributo.constituicao);
-	printf("agilidade %i\n",P.atributo.agilidade);
 }
