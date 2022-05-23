@@ -5,10 +5,10 @@
 
 typedef struct atributos
 {
-	int forca;
-	int constituicao;
-	int agilidade;
-	int destreza;
+	float forca;
+	float constituicao;
+	float agilidade;
+	float destreza;
 } ATRIBUTO;
 
 typedef struct armadura
@@ -20,8 +20,8 @@ typedef struct armadura
 typedef struct arma
 {
 	char nome[20];
-	int categoria;
 	float dano;
+	int categoria;
 } ARMA;
 
 typedef struct equipamentos
@@ -33,7 +33,7 @@ typedef struct equipamentos
 typedef struct personagem
 {
 	char nome[50];
-	int pv;
+	float pv;
 	EQUIPAMENTO equipamento;
 	ATRIBUTO atributo;
 } PERSONAGEM;
@@ -44,7 +44,7 @@ typedef struct adversario
 	float pv;
 	float dano;
 	float defesa;
-	int agilidade;
+	float agilidade;
 } AD;
 
 AD adv_1 = {"um", 7, 5, 10, 3};
@@ -55,7 +55,6 @@ AD adv_5 = {"cinco", 17, 15, 12, 7};
 AD adv_6 = {"seis", 17, 17, 17, 10};
 
 AD adversario;
-
 ARMA arma;
 PERSONAGEM personagem;
 
@@ -66,11 +65,13 @@ void pontos_vida();
 
 int main()
 {
-	srand(time(NULL));
 	int opc, voltar = 1;
-	int adv_aleatorio, escolha, pontos;
+	int adv_aleatorio, i = 0, escolha;
+	float pontos;
 	int escolha_primeira_arma, escolha_armadura;
-	int i = 0;;
+
+	printf("-------------------\n------- MENU ------\n-------------------\n");
+	printf("Digite opcao 1, 2 ou 3:\n");
 	printf("1- Comecar o jogo.\n2- Contar a historia.\n3- Fechar o jogo.\n");
 	scanf("%d", &opc);
 
@@ -86,13 +87,13 @@ int main()
 			printf("Voce tem 15 pontos para distribuir entre os atributos:\nFORCA\tCONSTITUICAO\tAGILIDADE\tDESTREZA\n\n");
 
 				printf("FORCA: ");
-				scanf("%d", &personagem.atributo.forca);
+				scanf("%f", &personagem.atributo.forca);
 				printf("CONSTITUICAO: ");
-				scanf("%d", &personagem.atributo.constituicao);
+				scanf("%f", &personagem.atributo.constituicao);
 				printf("AGILIDADE: ");
-				scanf("%d", &personagem.atributo.agilidade);
+				scanf("%f", &personagem.atributo.agilidade);
 				printf("DESTREZA: ");
-				scanf("%d", &personagem.atributo.destreza);
+				scanf("%f", &personagem.atributo.destreza);
 				pontos = personagem.atributo.agilidade + personagem.atributo.constituicao + personagem.atributo.destreza + personagem.atributo.forca;
 				if(pontos > 15 || pontos < 15)
 				{
@@ -105,7 +106,7 @@ int main()
 			personagem.pv = 0;
 
 			pontos_vida(&personagem.atributo.constituicao, &personagem.pv);
-			printf("Pontos de vida: %.d\n", personagem.pv);
+			printf("Pontos de vida: %.f\n", personagem.pv);
 
 			printf("\na hr de escolher a sua arma e comecar a sua jornada chegou...\n");
 			printf("vc tem tres opcoes de armas: \n1.katana : arma leve\n2.espada : arma leve\n3.machado : arma pesada\n\ndigite respectivamente 1,2 ou 3: ");
@@ -115,19 +116,19 @@ int main()
 			{
 				strcpy(personagem.equipamento.arma.nome, "katana");
 				personagem.equipamento.arma.categoria = 1;
-				arma = personagem.equipamento.arma;
+				personagem.equipamento.arma = arma;
 			}
 			else if(escolha_primeira_arma == 2)
 			{
 				strcpy(personagem.equipamento.arma.nome, "espada");
 				personagem.equipamento.arma.categoria = 1;
-				arma = personagem.equipamento.arma;
+				personagem.equipamento.arma = arma;
 			}
 			else if(escolha_primeira_arma == 3)
 			{
 				strcpy(personagem.equipamento.arma.nome, "machado");
 				personagem.equipamento.arma.categoria = 2;
-				arma = personagem.equipamento.arma;
+				personagem.equipamento.arma = arma;
 			}
 			else
 			{
@@ -135,7 +136,7 @@ int main()
 				system("pause");
 				system("cls");
 			}
-			
+
 			printf("\nMomento de escolher a armadura\n");
 			printf("Escolha uma das 3 opcoes:\n1- armadura1\n2- armadura2\n3- armadura 3\n\ndigite respectivamente 1,2 ou 3: ");
 			scanf("%d", &escolha_armadura);
@@ -149,8 +150,9 @@ int main()
 			}else if(escolha_armadura == 3){
 				strcpy(personagem.equipamento.armadura.nome, "armadura3");
 				personagem.equipamento.armadura.defesa = 10 + 1.5*personagem.atributo.constituicao;
-			}
-			
+			} 
+
+			//printf("\n\n%s, %.1f\n\n", personagem.equipamento.armadura.nome, personagem.equipamento.armadura.defesa);
 			
 			//combate
 			system("pause");
@@ -173,7 +175,7 @@ int main()
 					//turno personagem
 					printf("\nEscolha a sua acao:\n1- ATACAR\n2- DEFENDER\n3- USA POCAO\n");
 					scanf("%d", &escolha);
-					if(i = 1){
+					if(i == 1){
 						personagem.equipamento.armadura.defesa /= 2;
 						i = 0;
 					}
@@ -193,7 +195,7 @@ int main()
 					}					
 					//turno oponente
 					escolha = rand() % 3 + 1;
-					if(i = 1){
+					if(i == 1){
 						personagem.equipamento.armadura.defesa /= 2;
 						i = 0;
 					}
@@ -237,13 +239,12 @@ int main()
 					}
 					switch(escolha){
 						case 1:
+							
 							ataque(&personagem.equipamento.arma.dano, &adversario.defesa, &adversario.pv);
 							printf("%f", adversario.pv);
 							break;   
 						case 2:
-							//printf("antes: %.f\n", personagem.equipamento.armadura.defesa);
 							defender(&personagem.equipamento.armadura.defesa);
-							//printf("depois: %.f\n", personagem.equipamento.armadura.defesa);
 							i++;
 							break;
 						case 3:
@@ -252,7 +253,6 @@ int main()
 					}										
 				}
 			}
-			
 			break;
 
 		case 2:
@@ -270,17 +270,17 @@ int main()
 	}
 }
 
-void pontos_vida(int* consta, int* pv)
-{                               
+void pontos_vida(float* consta, float* pv)
+{
 	srand(time(NULL));
-	int dado_1 = rand() % 6 + 1, dado_2 = rand() % 6 + 1 , dado_3 = rand() % 6 + 1;
+	float dado_1 = rand() % 6 + 1, dado_2 = rand() % 6 + 1 , dado_3 = rand() % 6 + 1;
 	
 	*pv =  dado_1 + dado_2 + dado_3 + (*consta);
 	//printf("\nDado 1= %i \nDado 2= %i \nDado 2= %i\n", dado_1, dado_2, dado_3);
 	
 }
 
-void ataque(float *arma_jogador, float *armadura_oponente, int *pv_oponente)
+void ataque(float *arma_jogador, float *armadura_oponente, float *pv_oponente)
 {                                                          
 	int dano;
 	dano = *arma_jogador - *armadura_oponente;
@@ -292,7 +292,7 @@ void defender(float *defesa)
 	*defesa = 2 * *defesa;
 }
 
-void pocao(int *pv){
+void pocao(float *pv){
 	srand(time(NULL));
 	int dado_1 = rand() % 6 + 1, dado_2 = rand() % 6 + 1 , dado_3 = rand() % 6 + 1;
 	
