@@ -21,6 +21,7 @@ typedef struct arma
 {
 	char nome[20];
 	int categoria;
+	float dano;
 } ARMA;
 
 typedef struct equipamentos
@@ -40,33 +41,36 @@ typedef struct personagem
 typedef struct adversario
 {
 	char nome[20];
-	int pv;
-	int defesa;
+	float pv;
+	float dano;
+	float defesa;
 	int agilidade;
 } AD;
 
-AD adv_1 = {"um", 7, 5, 3};
-AD adv_2 = {"dois", 10, 7, 5};
-AD adv_3 = {"tres", 12, 10, 7};
-AD adv_4 = {"quatro", 15, 12, 5};
-AD adv_5 = {"cinco", 17, 15, 7};
-AD adv_6 = {"seis", 17, 17, 10};
+AD adv_1 = {"um", 7, 5, 10, 3};
+AD adv_2 = {"dois", 10, 7, 5, 5};
+AD adv_3 = {"tres", 12, 10, 5, 7};
+AD adv_4 = {"quatro", 15, 12, 15, 5};
+AD adv_5 = {"cinco", 17, 15, 12, 7};
+AD adv_6 = {"seis", 17, 17, 17, 10};
+
+AD adversario;
 
 ARMA arma;
 PERSONAGEM personagem;
 
-void teste(PERSONAGEM P);
-
+void ataque();
+void defender();
+void pocao();
 void pontos_vida();
 
 int main()
 {
+	srand(time(NULL));
 	int opc, voltar = 1;
-	int pontos;
+	int adv_aleatorio, escolha, pontos;
 	int escolha_primeira_arma, escolha_armadura;
-
-	printf("-------------------\n------- MENU ------\n-------------------\n");
-	printf("Digite opcao 1, 2 ou 3:\n");
+	int i = 0;;
 	printf("1- Comecar o jogo.\n2- Contar a historia.\n3- Fechar o jogo.\n");
 	scanf("%d", &opc);
 
@@ -111,19 +115,19 @@ int main()
 			{
 				strcpy(personagem.equipamento.arma.nome, "katana");
 				personagem.equipamento.arma.categoria = 1;
-				personagem.equipamento.arma = arma;
+				arma = personagem.equipamento.arma;
 			}
 			else if(escolha_primeira_arma == 2)
 			{
 				strcpy(personagem.equipamento.arma.nome, "espada");
 				personagem.equipamento.arma.categoria = 1;
-				personagem.equipamento.arma = arma;
+				arma = personagem.equipamento.arma;
 			}
 			else if(escolha_primeira_arma == 3)
 			{
 				strcpy(personagem.equipamento.arma.nome, "machado");
 				personagem.equipamento.arma.categoria = 2;
-				personagem.equipamento.arma = arma;
+				arma = personagem.equipamento.arma;
 			}
 			else
 			{
@@ -131,7 +135,7 @@ int main()
 				system("pause");
 				system("cls");
 			}
-
+			
 			printf("\nMomento de escolher a armadura\n");
 			printf("Escolha uma das 3 opcoes:\n1- armadura1\n2- armadura2\n3- armadura 3\n\ndigite respectivamente 1,2 ou 3: ");
 			scanf("%d", &escolha_armadura);
@@ -145,12 +149,110 @@ int main()
 			}else if(escolha_armadura == 3){
 				strcpy(personagem.equipamento.armadura.nome, "armadura3");
 				personagem.equipamento.armadura.defesa = 10 + 1.5*personagem.atributo.constituicao;
-			} 
-
-			//printf("\n\n%s, %.1f\n\n", personagem.equipamento.armadura.nome, personagem.equipamento.armadura.defesa);
+			}
 			
 			
-
+			//combate
+			system("pause");
+			system("cls");
+			printf("PRIMEIRO COMBATE\n");
+			adv_aleatorio = rand() % 3 + 1;
+			switch(adv_aleatorio){
+				case 1:
+					adversario = adv_1;
+					break;
+				case 2:
+					adversario = adv_2;
+					break;
+				case 3:
+					adversario = adv_3;
+					break;
+			}
+			while(personagem.pv > 0 || adversario.pv > 0){
+				if(personagem.atributo.agilidade > adversario.agilidade){
+					//turno personagem
+					printf("\nEscolha a sua acao:\n1- ATACAR\n2- DEFENDER\n3- USA POCAO\n");
+					scanf("%d", &escolha);
+					if(i = 1){
+						personagem.equipamento.armadura.defesa /= 2;
+						i = 0;
+					}
+					switch(escolha){
+						case 1:
+							ataque(&personagem.equipamento.arma.dano, &adversario.defesa, &adversario.pv);
+							break;
+						case 2:
+							//printf("antes: %d\n", personagem.equipamento.armadura.defesa);
+							defender(&personagem.equipamento.armadura.defesa);
+							//printf("depois: %d\n", personagem.equipamento.armadura.defesa);
+							i++;
+							break;
+						case 3:
+							pocao(&personagem.pv);
+							break;	
+					}					
+					//turno oponente
+					escolha = rand() % 3 + 1;
+					if(i = 1){
+						personagem.equipamento.armadura.defesa /= 2;
+						i = 0;
+					}
+					switch(escolha){
+						case 1:
+							ataque(&adversario.dano, &personagem.equipamento.armadura.defesa, &personagem.pv);
+							break;
+						case 2:
+							defender(&adversario.defesa);
+							i++;
+							break;
+						case 3:
+							pocao(&adversario.pv);
+							break;	
+					}
+				}else{
+					//turno oponente
+					escolha = rand() % 3 + 1;
+					if(i = 1){
+						personagem.equipamento.armadura.defesa = personagem.equipamento.armadura.defesa / 2;
+						i = 0;
+					}
+					switch(escolha){
+						case 1:
+							ataque(&adversario.dano, &personagem.equipamento.armadura.defesa, &personagem.pv);
+							break;
+						case 2:
+							defender(&adversario.defesa);
+							i++;
+							break;
+						case 3:
+							pocao(&adversario.pv);
+							break;	
+					}
+					//turno personagem
+					printf("\nEscolha a sua acao:\n1- ATACAR\n2- DEFENDER\n3- USA POCAO\n");
+					scanf("%d", &escolha);
+					if(i = 1){
+						personagem.equipamento.armadura.defesa /= 2;
+						i = 0;
+					}
+					switch(escolha){
+						case 1:
+							ataque(&personagem.equipamento.arma.dano, &adversario.defesa, &adversario.pv);
+							printf("%f", adversario.pv);
+							break;   
+						case 2:
+							//printf("antes: %.f\n", personagem.equipamento.armadura.defesa);
+							defender(&personagem.equipamento.armadura.defesa);
+							//printf("depois: %.f\n", personagem.equipamento.armadura.defesa);
+							i++;
+							break;
+						case 3:
+							pocao(&personagem.pv);
+							break;	
+					}										
+				}
+			}
+			
 			break;
 
 		case 2:
@@ -169,11 +271,30 @@ int main()
 }
 
 void pontos_vida(int* consta, int* pv)
-{
+{                               
 	srand(time(NULL));
 	int dado_1 = rand() % 6 + 1, dado_2 = rand() % 6 + 1 , dado_3 = rand() % 6 + 1;
 	
 	*pv =  dado_1 + dado_2 + dado_3 + (*consta);
 	//printf("\nDado 1= %i \nDado 2= %i \nDado 2= %i\n", dado_1, dado_2, dado_3);
 	
+}
+
+void ataque(float *arma_jogador, float *armadura_oponente, int *pv_oponente)
+{                                                          
+	int dano;
+	dano = *arma_jogador - *armadura_oponente;
+	*pv_oponente = *pv_oponente - dano;	
+}
+
+void defender(float *defesa)
+{
+	*defesa = 2 * *defesa;
+}
+
+void pocao(int *pv){
+	srand(time(NULL));
+	int dado_1 = rand() % 6 + 1, dado_2 = rand() % 6 + 1 , dado_3 = rand() % 6 + 1;
+	
+	*pv = *pv + dado_1 + dado_2 + dado_3;
 }
