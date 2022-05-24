@@ -48,16 +48,17 @@ typedef struct adversario
 } AD;
 
 AD adv_1 = {"um", 7, 5, 10, 3};
-AD adv_2 = {"dois", 10, 7, 5, 5};
-AD adv_3 = {"tres", 12, 10, 5, 7};
+AD adv_2 = {"dois", 10, 7, 15, 5};
+AD adv_3 = {"tres", 12, 10, 15, 7};
 AD adv_4 = {"quatro", 15, 12, 15, 5};
-AD adv_5 = {"cinco", 17, 15, 12, 7};
+AD adv_5 = {"cinco", 17, 15, 15, 7};
 AD adv_6 = {"seis", 17, 17, 17, 10};
 
 AD adversario;
 ARMA arma;
 PERSONAGEM personagem;
 
+void dano_arma();
 void ataque();
 void defender();
 void pocao();
@@ -66,7 +67,7 @@ void pontos_vida();
 int main()
 {
 	int opc, voltar = 1;
-	int adv_aleatorio, i = 0, escolha;
+	int adv_aleatorio, i = 0, j = 0, escolha;
 	float pontos;
 	int escolha_primeira_arma, escolha_armadura;
 
@@ -175,16 +176,18 @@ int main()
 					adversario = adv_3;
 					break;
 			}
-			while(personagem.pv > 0 || adversario.pv > 0){
+			while(personagem.pv > 0 && adversario.pv > 0){
 				if(personagem.atributo.agilidade > adversario.agilidade){
 					//turno personagem
-					printf("\nEscolha a sua acao:\n1- ATACAR\n2- DEFENDER\n3- USA POCAO\n");
+					printf("\nEscolha a sua acao:\n1- ATACAR\n2- DEFENDER\n3- USAR POCAO\n");
 					scanf("%d", &escolha);
-					if(i == 1){
-						personagem.equipamento.armadura.defesa /= 2;
+					if(i == 1)
+					{
+						personagem.equipamento.armadura.defesa = personagem.equipamento.armadura.defesa / 2;
 						i = 0;
 					}
-					switch(escolha){
+					switch(escolha)
+					{
 						case 1:
 							ataque(&personagem.equipamento.arma.dano, &adversario.defesa, &adversario.pv);
 							break;
@@ -200,55 +203,61 @@ int main()
 					}					
 					//turno oponente
 					escolha = rand() % 3 + 1;
-					if(i == 1){
-						personagem.equipamento.armadura.defesa /= 2;
-						i = 0;
+					if(j == 1)
+					{
+						adversario.defesa = adversario.defesa / 2;
+						j = 0;
 					}
-					switch(escolha){
+					switch(escolha)
+					{
 						case 1:
 							ataque(&adversario.dano, &personagem.equipamento.armadura.defesa, &personagem.pv);
 							break;
 						case 2:
 							defender(&adversario.defesa);
-							i++;
+							j++;
 							break;
 						case 3:
 							pocao(&adversario.pv);
 							break;	
 					}
-				}else{
+				}
+				else
+				{
 					//turno oponente
 					escolha = rand() % 3 + 1;
-					if(i = 1){
-						personagem.equipamento.armadura.defesa = personagem.equipamento.armadura.defesa / 2;
-						i = 0;
+					if(j == 1)
+					{
+						adversario.defesa = adversario.defesa / 2;
+						j = 0;
 					}
-					switch(escolha){
+					switch(escolha)
+					{
 						case 1:
 							ataque(&adversario.dano, &personagem.equipamento.armadura.defesa, &personagem.pv);
 							break;
 						case 2:
 							defender(&adversario.defesa);
-							i++;
+							j++;
 							break;
 						case 3:
 							pocao(&adversario.pv);
 							break;	
 					}
 					//turno personagem
-					printf("\nEscolha a sua acao:\n1- ATACAR\n2- DEFENDER\n3- USA POCAO\n");
+					printf("\nEscolha a sua acao:\n1- ATACAR\n2- DEFENDER\n3- USAR POCAO\n");
 					scanf("%d", &escolha);
-					if(i = 1){
-						personagem.equipamento.armadura.defesa /= 2;
+					if(i == 1)
+					{
+						personagem.equipamento.armadura.defesa = personagem.equipamento.armadura.defesa / 2;
 						i = 0;
 					}
-					switch(escolha){
+					switch(escolha)
+					{
 						case 1:
-							
-							ataque(&personagem.equipamento.arma.dano, &adversario.defesa, &adversario.pv);
-							printf("%f", adversario.pv);
+							ataque(&arma.dano, &adversario.defesa, &adversario.pv);
 							break;   
-						case 2:
+						case 2:							
 							defender(&personagem.equipamento.armadura.defesa);
 							i++;
 							break;
@@ -275,6 +284,20 @@ int main()
 	}
 }
 
+void dano_arma(int *categoria, float *dano, float *forca, float *destre)
+{
+	srand(time(NULL));
+	float dado_4 = rand() % 4 + 1, dado1_6 = rand() % 6 + 1, dado2_6 = rand() % 6 + 1, dado_12 = rand() % 12 + 1;
+	if(*categoria == 1)
+	{
+		*dano = dado_12 + 1.5 * *forca + 6;
+	}
+	else if(*categoria == 2)
+	{
+		*dano = dado1_6 + dado2_6 + dado_4 + *destre + 3;
+	}
+}
+
 void pontos_vida(float* consta, float* pv)
 {
 	srand(time(NULL));
@@ -282,14 +305,15 @@ void pontos_vida(float* consta, float* pv)
 	
 	*pv =  dado_1 + dado_2 + dado_3 + (*consta);
 	//printf("\nDado 1= %i \nDado 2= %i \nDado 2= %i\n", dado_1, dado_2, dado_3);
-	
 }
 
 void ataque(float *arma_jogador, float *armadura_oponente, float *pv_oponente)
 {                                                          
-	int dano;
+	float dano;
 	dano = *arma_jogador - *armadura_oponente;
+	
 	*pv_oponente = *pv_oponente - dano;	
+	
 }
 
 void defender(float *defesa)
@@ -297,9 +321,9 @@ void defender(float *defesa)
 	*defesa = 2 * *defesa;
 }
 
-void pocao(float *pv){
+void pocao(float *pv)
+{
 	srand(time(NULL));
 	int dado_1 = rand() % 6 + 1, dado_2 = rand() % 6 + 1 , dado_3 = rand() % 6 + 1;
-	
 	*pv = *pv + dado_1 + dado_2 + dado_3;
 }
