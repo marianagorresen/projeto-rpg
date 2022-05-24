@@ -116,19 +116,19 @@ int main()
 			{
 				strcpy(personagem.equipamento.arma.nome, "katana");
 				personagem.equipamento.arma.categoria = 1;
-				personagem.equipamento.arma = arma;
+				arma = personagem.equipamento.arma;
 			}
 			else if(escolha_primeira_arma == 2)
 			{
 				strcpy(personagem.equipamento.arma.nome, "espada");
 				personagem.equipamento.arma.categoria = 1;
-				personagem.equipamento.arma = arma;
+				arma = personagem.equipamento.arma;
 			}
 			else if(escolha_primeira_arma == 3)
 			{
 				strcpy(personagem.equipamento.arma.nome, "machado");
 				personagem.equipamento.arma.categoria = 2;
-				personagem.equipamento.arma = arma;
+				arma = personagem.equipamento.arma;
 			}
 			else
 			{
@@ -141,13 +141,18 @@ int main()
 			printf("Escolha uma das 3 opcoes:\n1- armadura1\n2- armadura2\n3- armadura 3\n\ndigite respectivamente 1,2 ou 3: ");
 			scanf("%d", &escolha_armadura);
 
-			if(escolha_armadura == 1){
+			if(escolha_armadura == 1)
+			{
 				strcpy(personagem.equipamento.armadura.nome, "armadura1");
 				personagem.equipamento.armadura.defesa = 5 + 1.5*personagem.atributo.constituicao;
-			}else if(escolha_armadura == 2){
+			}
+			else if(escolha_armadura == 2)
+			{
 				strcpy(personagem.equipamento.armadura.nome, "armadura2");
 				personagem.equipamento.armadura.defesa = 7 + 1.5*personagem.atributo.constituicao;
-			}else if(escolha_armadura == 3){
+			}
+			else if(escolha_armadura == 3)
+			{
 				strcpy(personagem.equipamento.armadura.nome, "armadura3");
 				personagem.equipamento.armadura.defesa = 10 + 1.5*personagem.atributo.constituicao;
 			} 
