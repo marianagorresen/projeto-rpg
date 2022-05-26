@@ -48,12 +48,12 @@ typedef struct adversario
 	float agilidade;
 } AD;
 
-AD adv_1 = {"GOBLIN", 10, 2, 3, 5};
-AD adv_2 = {"BRUXA", 20, 5, 5, 2};
-AD adv_3 = {"DUENDE", 10, 3, 2, 4};
-AD adv_4 = {"GIGANTE", 20, 6, 15, 1};
-AD adv_5 = {"QUIMERA",15, 7, 10, 7};
-AD adv_6 = {"REI POSSUIDO", 25, 15, 10, 9};
+AD adv_1 = {"GOBLIN", 10, 10, 3, 5};
+AD adv_2 = {"BRUXA", 20, 10, 5, 2};
+AD adv_3 = {"DUENDE", 10, 12, 2, 4};
+AD adv_4 = {"GIGANTE", 20, 16, 15, 1};
+AD adv_5 = {"QUIMERA",15, 7, 15, 7};
+AD adv_6 = {"REI POSSUIDO", 25, 25, 10, 9};
 
 AD adversario;
 ARMA arma;
@@ -73,7 +73,7 @@ int main()
 	int adv_aleatorio, i = 0, j = 0, escolha;
 	int escolha_premiacao_1, escolha_premiacao_2;
 	float pontos;
-	int escolha_primeira_arma, escolha_armadura;
+	int escolha_primeira_arma, escolha_armadura, pa = 0, p = 0;
 
 	printf("-------------------\n------- MENU ------\n-------------------\n");
 	printf("Digite opcao 1, 2 ou 3:\n");
@@ -150,17 +150,17 @@ int main()
 			if(escolha_armadura == 1)
 			{
 				strcpy(personagem.equipamento.armadura.nome, "capacete");
-				personagem.equipamento.armadura.defesa = 7 + 1.5*personagem.atributo.constituicao;
+				personagem.equipamento.armadura.defesa = 5 + 1.5*personagem.atributo.constituicao;
 			}
 			else if(escolha_armadura == 2)
 			{
 				strcpy(personagem.equipamento.armadura.nome, "manopla");
-				personagem.equipamento.armadura.defesa = 7 + 1.5*personagem.atributo.constituicao;
+				personagem.equipamento.armadura.defesa = 5 + 1.5*personagem.atributo.constituicao;
 			}
 			else if(escolha_armadura == 3)
 			{
 				strcpy(personagem.equipamento.armadura.nome, "colete");
-				personagem.equipamento.armadura.defesa = 7 + 1.5*personagem.atributo.constituicao;
+				personagem.equipamento.armadura.defesa = 5 + 1.5*personagem.atributo.constituicao;
 			} 
 
 			//printf("\n\n%s, %.1f\n\n", personagem.equipamento.armadura.nome, personagem.equipamento.armadura.defesa);
@@ -184,34 +184,54 @@ int main()
 			while(personagem.pv > 0 && adversario.pv > 0)
 			{
 				dano_arma(&arma.categoria, &arma.dano, &personagem.atributo.forca, &personagem.atributo.destreza);
-					
+				
 				if(personagem.atributo.agilidade > adversario.agilidade)
 				{
 					//turno personagem
-					printf("\nEscolha a sua acao:\n1- ATACAR\n2- DEFENDER\n3- USAR POCAO\n");
-					scanf("%d", &escolha);
-					if(i == 1)
+					voltar = 1;
+					while(voltar == 1)
 					{
-						personagem.equipamento.armadura.defesa = personagem.equipamento.armadura.defesa / 2;
-						i = 0;
-					}
-					switch(escolha)
-					{
-						case 1:
-							ataque(&personagem.equipamento.arma.dano, &adversario.defesa, &adversario.pv);
-							break;
-						case 2:
-							//printf("antes: %d\n", personagem.equipamento.armadura.defesa);
-							defender(&personagem.equipamento.armadura.defesa);
-							//printf("depois: %d\n", personagem.equipamento.armadura.defesa);
-							i++;
-							break;
-						case 3:
-							pocao(&personagem.pv);
-							break;	
+						voltar = 0;
+						if(i == 1)
+						{
+							personagem.equipamento.armadura.defesa = personagem.equipamento.armadura.defesa / 2;
+							i = 0;
+						}
+						printf("\nEscolha a sua acao:\n1- ATACAR\n2- DEFENDER\n3- USAR POCAO\n");
+						scanf("%d", &escolha);
+						switch(escolha)
+						{
+							case 1:
+								ataque(&arma.dano, &adversario.defesa, &adversario.pv);
+								printf("%s escolheu ataque\n", personagem.nome);
+								printf("Ponto de vida de %s: %f\nPonto de vida do adversario %s: %f\n\n", personagem.nome, personagem.pv, adversario.nome, adversario.pv);	
+								break;
+							case 2:
+								//printf("antes: %d\n", personagem.equipamento.armadura.defesa);
+								defender(&personagem.equipamento.armadura.defesa);
+								printf("%s escolheu defender\n", personagem.nome);
+								printf("Valor da defesa por um round: %f\n", personagem.equipamento.armadura.defesa);
+								i++;
+								break;
+							case 3:
+								if(pa < 3){
+									pocao(&personagem.pv);
+									printf("%s escolheu usar pocao\n", personagem.nome);
+									pa++;
+								}else{
+									printf("\nPocao ja foi usada 3 vezes, escolha outra acao\n");
+									voltar = 1;
+								}
+								break;	
+						}
 					}					
 					//turno oponente
-					escolha = rand() % 3 + 1;
+					if(p < 3){
+						escolha = rand() % 3 + 1;
+					}else{
+						escolha = rand() % 2 + 1;
+					}
+			
 					if(j == 1)
 					{
 						adversario.defesa = adversario.defesa / 2;
@@ -221,15 +241,20 @@ int main()
 					{
 						case 1:
 							ataque(&adversario.dano, &personagem.equipamento.armadura.defesa, &personagem.pv);
+							printf("%s escolheu ataque\n", adversario.nome);
 							break;
 						case 2:
 							defender(&adversario.defesa);
+							printf("%s escolheu defender\n", adversario.nome);
 							j++;
 							break;
 						case 3:
 							pocao(&adversario.pv);
+							printf("%s escolheu usar pocao\n", adversario.nome);
+							p++;
 							break;	
 					}
+					
 				}
 				else
 				{
@@ -244,16 +269,23 @@ int main()
 					{
 						case 1:
 							ataque(&adversario.dano, &personagem.equipamento.armadura.defesa, &personagem.pv);
+							printf("%s escolheu ataque\n", adversario.nome);
 							break;
 						case 2:
 							defender(&adversario.defesa);
+							printf("%s escolheu defender\n", adversario.nome);
 							j++;
 							break;
 						case 3:
 							pocao(&adversario.pv);
+							printf("%s escolheu usar pocao\n", adversario.nome);
 							break;	
 					}
-					//turno personagem
+				//turno personagem
+				voltar = 1;
+				while(voltar == 1)
+				{
+					voltar = 0;
 					printf("\nEscolha a sua acao:\n1- ATACAR\n2- DEFENDER\n3- USAR POCAO\n");
 					scanf("%d", &escolha);
 					
@@ -266,17 +298,30 @@ int main()
 					{
 						case 1:
 							ataque(&arma.dano, &adversario.defesa, &adversario.pv);
+							printf("%s escolheu ataque\n", personagem.nome);
+							printf("Ponto de vida de %s: %f\nPonto de vida do adversario %s: %f\n\n", personagem.nome, personagem.pv, adversario.nome, adversario.pv);							
 							break;   
 						case 2:							
 							defender(&personagem.equipamento.armadura.defesa);
+							printf("%s escolheu defender\n", personagem.nome);
+							printf("Valor da defesa por um round: %f\n", personagem.equipamento.armadura.defesa);
 							i++;
 							break;
 						case 3:
-							pocao(&personagem.pv);
+							if(pa < 3){
+								pocao(&personagem.pv);
+								printf("%s escolheu usar pocao\n", personagem.nome);
+								pa++;
+							}else{
+								printf("\nPocao ja foi usada 3 vezes, escolha outra acao\n");
+								voltar = 1;
+							}
 							break;	
-					}										
+					}
 				}
 			}
+		}
+	
 			if(personagem.pv == 0)
 			{
 				printf("GAME OVER");
@@ -299,8 +344,6 @@ int main()
 				premiacao_arma_1(&arma.nome, &arma.categoria);	
 			}
 			
-			
-			
 			break;
 
 		case 2:
@@ -316,6 +359,7 @@ int main()
 			system("pause");
 			system("cls");	
 	}
+	return 0;
 }
 
 
@@ -384,13 +428,14 @@ void dano_arma(int *categoria, float *dano, float *forca, float *destre)
 {
 	srand(time(NULL));
 	float dado_4 = rand() % 4 + 1, dado1_6 = rand() % 6 + 1, dado2_6 = rand() % 6 + 1, dado_12 = rand() % 12 + 1;
-	if(*categoria == 1)
+	if(*categoria == 2)
 	{
-		*dano = dado_12 + 1.5 * *forca + 6;
+		*dano = dado_12 + *forca * 1.5 + 6;
 	}
-	else if(*categoria == 2)
+	else if(*categoria == 1)
 	{
 		*dano = dado1_6 + dado2_6 + dado_4 + *destre + 3;
+		
 	}
 }
 
@@ -406,9 +451,9 @@ void ataque(float *arma_jogador, float *armadura_oponente, float *pv_oponente)
 {                                                          
 	float dano;
 	dano = *arma_jogador - *armadura_oponente;
-	
+	//printf("\n%f = %f - %f\n", dano, *arma_jogador, *armadura_oponente);
+	//printf("\n%f = %f - %f\n", *pv_oponente, *pv_oponente, dano);
 	*pv_oponente = *pv_oponente - dano;	
-	
 }
 
 void defender(float *defesa)
