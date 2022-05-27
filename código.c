@@ -70,6 +70,7 @@ void premiacao_arma_1();
 
 int main()
 {
+	srand(time(NULL));
 	int opc, voltar, escolha, inicio = 1;
 	int adv_aleatorio, i = 0, j = 0;
 	int escolha_premiacao_1, escolha_premiacao_2;
