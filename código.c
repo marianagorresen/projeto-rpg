@@ -175,8 +175,6 @@ int main()
 					}
 				}while(escolha_armadura > 3 || escolha_armadura < 1);
 	
-				//printf("\n\n%s, %.1f\n\n", personagem.equipamento.armadura.nome, personagem.equipamento.armadura.defesa);
-				
 				//combate 1
 				pa = 0;
 				p = 0;
@@ -346,7 +344,7 @@ int main()
 									system("pause");
 									break;
 							}
-						}while(escolha > 3 || escolha < 1 || pa > 3);
+						}while(escolha > 3 || escolha < 1 || voltar == 1);
 					}
 				
 				}
@@ -827,7 +825,7 @@ int main()
 				}
 				system("pause");
 				system("cls");
-				printf("-------------------\n--VOCE VENCEU--\n-------------------\n\n");
+				printf("-------------------\n----VOCE VENCEU----\n-------------------\n\n");
 				printf("Conclusao da historia: \n");
 				system("pause");
 				system("cls");
@@ -936,7 +934,6 @@ void ataque(float *arma_jogador, float *armadura_oponente, float *pv_oponente)
 {                                                          
 	float dano;
 	dano = *arma_jogador - *armadura_oponente;
-
 	*pv_oponente = *pv_oponente - dano;	
 }
 
