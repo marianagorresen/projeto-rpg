@@ -148,7 +148,8 @@ int main()
 					}
 				}while(escolha_primeira_arma > 3 || escolha_primeira_arma < 1);
 				
-				do{
+				do
+				{
 					printf("\nMomento de escolher a armadura\n");
 					printf("Escolha uma das 3 opcoes:\n1- Capacete\n2- Manopla\n3- Colete\n\nDigite respectivamente 1,2 ou 3: ");
 					scanf("%i", &escolha_armadura);
@@ -175,6 +176,8 @@ int main()
 					}
 				}while(escolha_armadura > 3 || escolha_armadura < 1);
 	
+				//printf("\n\n%s, %.1f\n\n", personagem.equipamento.armadura.nome, personagem.equipamento.armadura.defesa);
+				
 				//combate 1
 				pa = 0;
 				p = 0;
@@ -182,7 +185,8 @@ int main()
 				system("cls");
 				printf("PRIMEIRO COMBATE\n");
 				adv_aleatorio = rand() % 3 + 1;
-				switch(adv_aleatorio){
+				switch(adv_aleatorio)
+				{
 					case 1:
 						adversario = adv_1;
 						break;
@@ -225,12 +229,15 @@ int main()
 									i++;
 									break;
 								case 3:
-									if(pa < 3){
+									if(pa < 3)
+									{
 										pocao(&personagem.pv);
 										printf("%s escolheu usar pocao\n", personagem.nome);
 										printf("Ponto de vida de %s: %f\n", personagem.nome, personagem.pv);
 										pa++;
-									}else{
+									}
+									else
+									{
 										voltar = 1;
 										printf("Pocao ja foi usada 3 vezes, escolha outra acao\n");
 									}
@@ -241,12 +248,16 @@ int main()
 									break;
 									
 							}
-						}while(escolha > 3 || escolha < 1 || voltar == 1);
+						}
+						while(escolha > 3 || escolha < 1 || voltar == 1);
 										
 						//turno oponente
-						if(p < 3){
+						if(p < 3)
+						{
 							escolha = rand() % 3 + 1;
-						}else{
+						}
+						else
+						{
 							escolha = rand() % 2 + 1;
 						}
 				
@@ -344,7 +355,8 @@ int main()
 									system("pause");
 									break;
 							}
-						}while(escolha > 3 || escolha < 1 || voltar == 1);
+						}
+						while(escolha > 3 || escolha < 1 || pa > 3);
 					}
 				
 				}
@@ -419,7 +431,8 @@ int main()
 				printf("SEGUNDO COMBATE\n");
 				
 				adv_aleatorio = rand() % 2 + 1;
-				switch(adv_aleatorio){
+				switch(adv_aleatorio)
+				{
 					case 1:
 						adversario = adv_4;
 						break;
@@ -461,12 +474,15 @@ int main()
 									i++;
 									break;
 								case 3:
-									if(pa < 3){
+									if(pa < 3)
+									{
 										pocao(&personagem.pv);
 										printf("%s escolheu usar pocao\n", personagem.nome);
 										printf("Ponto de vida de %s: %f\n", personagem.nome, personagem.pv);
 										pa++;
-									}else{
+									}
+									else
+									{
 										voltar = 1;
 										printf("Pocao ja foi usada 3 vezes, escolha outra acao\n");
 									}
@@ -481,9 +497,12 @@ int main()
 						while(escolha > 3 || escolha < 1 || voltar == 1);
 											
 						//turno oponente
-						if(p < 3){
+						if(p < 3)
+						{
 							escolha = rand() % 3 + 1;
-						}else{
+						}
+						else
+						{
 							escolha = rand() % 2 + 1;
 						}
 				
@@ -514,9 +533,12 @@ int main()
 					else
 					{
 						//turno oponente
-						if(p < 3){
+						if(p < 3)
+						{
 							escolha = rand() % 3 + 1;
-						}else{
+						}
+						else
+						{
 							escolha = rand() % 2 + 1;
 						}
 						if(j == 1)
@@ -567,12 +589,15 @@ int main()
 									i++;
 									break;
 								case 3:
-									if(pa < 3){
+									if(pa < 3)
+									{
 										pocao(&personagem.pv);
 										printf("%s escolheu usar pocao\n", personagem.nome);
 										printf("Ponto de vida de %s: %f\n", personagem.nome, personagem.pv);
 										pa++;
-									}else{
+									}
+									else
+									{
 										voltar = 1;
 										printf("Pocao ja foi usada 3 vezes, escolha outra acao\n");
 									}
@@ -688,12 +713,15 @@ int main()
 									i++;
 									break;
 								case 3:
-									if(pa < 3){
+									if(pa < 3)
+									{
 										pocao(&personagem.pv);
 										printf("%s escolheu usar pocao\n", personagem.nome);
 										printf("Ponto de vida de %s: %f\n", personagem.nome, personagem.pv);
 										pa++;
-									}else{
+									}
+									else
+									{
 										printf("Pocao ja foi usada 3 vezes, escolha outra acao\n");
 										voltar = 1;
 									}
@@ -708,9 +736,12 @@ int main()
 						while(escolha > 3 || escolha < 1 || voltar == 1);
 											
 						//turno oponente
-						if(p < 3){
+						if(p < 3)
+						{
 							escolha = rand() % 3 + 1;
-						}else{
+						}
+						else
+						{
 							escolha = rand() % 2 + 1;
 						}
 				
@@ -741,9 +772,12 @@ int main()
 					else
 					{
 						//turno oponente
-						if(p < 3){
+						if(p < 3)
+						{
 							escolha = rand() % 3 + 1;
-						}else{
+						}
+						else
+						{
 							escolha = rand() % 2 + 1;
 						}
 						if(j == 1)
@@ -794,12 +828,15 @@ int main()
 									i++;
 									break;
 								case 3:
-									if(pa < 3){
+									if(pa < 3)
+									{
 										pocao(&personagem.pv);
 										printf("%s escolheu usar pocao\n", personagem.nome);
 										printf("Ponto de vida de %s: %f\n", personagem.nome, personagem.pv);
 										pa++;
-									}else{
+									}
+									else
+									{
 										printf("Pocao ja foi usada 3 vezes, escolha outra acao\n");
 										voltar = 1;
 									}
@@ -825,7 +862,7 @@ int main()
 				}
 				system("pause");
 				system("cls");
-				printf("-------------------\n----VOCE VENCEU----\n-------------------\n\n");
+				printf("-------------------\n--VOCE VENCEU--\n-------------------\n\n");
 				printf("Conclusao da historia: \n");
 				system("pause");
 				system("cls");
@@ -833,6 +870,7 @@ int main()
 				break;
 	
 			case 2:
+				printf("como vai aventureiro,sabemos q vc eh um guerreiro extremante habilidoso e por isso convocaremos vc a uma jornada.\nApos um ataque misterioso a capital perdemos toda a comunicao com eles,precisamos q vc atravesse a floresta espiritual e restabeleca a comunicao,mas vc ira encontrar varios obstaculos na jornada.\nnos desejamos boa sorte")
 				system("pause");
 				system("cls");	
 				break;
@@ -855,7 +893,8 @@ int main()
 void premiacao_nivel_2(float* forca, float* consti, float* agilit, float* destre)
 {
 	float f,c,a,d,pontos = 0;
-	while(pontos != 10){
+	while(pontos != 10)
+	{
 		printf("vc tem 10 pontos de atributos para serem distribuidos.\n");
 		printf("FORCA: ");
 		scanf("%f", &f);
@@ -883,7 +922,8 @@ void premiacao_nivel_1(float* forca, float* consti, float* agilit, float* destre
 {
 	float f,c,a,d,pontos;
 	
-	while(pontos != 5){
+	while(pontos != 5)
+{
 		printf("vc tem 5 pontos de atributos para serem distribuidos.\n");
 		printf("FORCA: ");
 		scanf("%f", &f);
@@ -934,6 +974,7 @@ void ataque(float *arma_jogador, float *armadura_oponente, float *pv_oponente)
 {                                                          
 	float dano;
 	dano = *arma_jogador - *armadura_oponente;
+
 	*pv_oponente = *pv_oponente - dano;	
 }
 
