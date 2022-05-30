@@ -863,14 +863,14 @@ int main()
 				system("pause");
 				system("cls");
 				printf("-------------------\n--VOCE VENCEU--\n-------------------\n\n");
-				printf("Conclusao da historia: \n");
+				printf("parabens,vc conseguiu atravessar a floresta e avisar ao reino bem a tempo, \n");
 				system("pause");
 				system("cls");
 			
 				break;
 	
 			case 2:
-				printf("como vai aventureiro,sabemos q vc eh um guerreiro extremante habilidoso e por isso convocaremos vc a uma jornada.\nApos um ataque misterioso a capital perdemos toda a comunicao com eles,precisamos q vc atravesse a floresta espiritual e restabeleca a comunicao,mas vc ira encontrar varios obstaculos na jornada.\nnos desejamos boa sorte")
+				printf("como vai aventureiro,sabemos q vc eh um guerreiro extremante habilidoso e por isso convocaremos vc a uma jornada.\nApos um ataque misterioso a capital perdemos toda a comunicao com eles,precisamos q vc atravesse a floresta espiritual e restabeleca a comunicao,mas vc ira encontrar varios obstaculos na jornada.\nnos desejamos boa sorte");
 				system("pause");
 				system("cls");	
 				break;
